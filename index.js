@@ -1,12 +1,17 @@
 const generateBtn = document.getElementById("generateBtn");
 const container = document.getElementById("container");
-const common = document.getElementById("common")
+const common = document.getElementById("common");
+const unique = document.getElementById("unique");
 
 async function handleCalculate()
 {
     const url = "http://127.0.0.1:8000/calculate"; //Needs the 8000 bc uvicorn hosts server on port 8000
     const num = document.getElementById("numUsers").value;
+    const sim_type = document.getElementById("status").value
     var users = [];
+
+    common.innerHTML = "";
+    unique.innerHTML = "";
 
     for(let i = 1; i <= num; i++)
     {
@@ -19,7 +24,10 @@ async function handleCalculate()
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({users: users})
+            body: JSON.stringify({
+                users: users,
+                status: sim_type
+            })
         })
         
         if(!response.ok)
@@ -27,14 +35,36 @@ async function handleCalculate()
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json(); // Parses the JSON response from the server
-        //console.log('Success:', data);
 
         const common_list = data['common'];
         console.log(common_list);
 
+        const common_header = document.createElement("h2");
+        common_header.textContent = "Common Anime";
+        common.appendChild(common_header)
+
         const common_section = document.createElement("p");
         common_section.textContent = common_list;
         common.appendChild(common_section);
+
+        const unique_list = data['unique'];
+        console.log(unique_list);
+
+        const unique_header = document.createElement("h2");
+        unique_header.textContent = "Unique Anime";
+        unique.appendChild(unique_header);
+
+        for(let i = 0; i < num; i++) {
+            const unique_user = document.createElement("h3");
+            unique_user.textContent = users[i];
+            unique.appendChild(unique_user);
+
+            const unique_section = document.createElement("p");
+            unique_section.textContent = unique_list[users[i]];
+            unique.appendChild(unique_section);
+        }
+
+        const unique_section = document.createElement("p")
     } catch (error) {
         console.error('Error sending POST request:', error);
     }

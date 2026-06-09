@@ -24,6 +24,7 @@ app.add_middleware(
 
 class UserList(BaseModel):
     users: list[str]
+    status: str
 
 # Load the environment variables from the .env file
 load_dotenv()
@@ -33,19 +34,16 @@ mal_key = os.getenv("MAL_CLIENT_ID")
 
 user_list = []
 #should probably make a dict
-anime_list = []
+anime_list = {}
 
-def get_titles(list):
-    titles = []
-    for entry in list:
-        titles.append(entry['node']['title'])
-    
-    return titles
 
 @app.post("/calculate")
 def calculate(data : UserList):
+    global user_list
+    global anime_list
+
     user_list = []
-    anime_list = []
+    anime_list = {}
 
     for user in data.users:
         url = f"https://api.myanimelist.net/v2/users/{user}/animelist"
@@ -57,10 +55,14 @@ def calculate(data : UserList):
         params = {
             #"fields": "list_status",
             "limit": '500',
-            "nsfw": 'true' #???????? needs to be on to get all anime (even not NSFW ones)
+            "nsfw": 'true', #???????? needs to be on to get all anime (even not NSFW ones)
         }
 
+        if data.status != "All" and data.status != "Completed/Watching":
+            params['status'] = data.status.lower()
+
         temp_list = []
+        list = None
         while url:
             response = requests.get(url, headers=headers, params=params)
 
@@ -70,14 +72,45 @@ def calculate(data : UserList):
                 list = response.json()
                 temp_list.extend(get_titles(list['data']))
 
-            url = list.get('paging', {}).get('next')
+                url = list.get('paging', {}).get('next')
 
-        anime_list.append(temp_list)
+        temp_list.sort()
+        anime_list[user] = temp_list
 
-    common = set(anime_list[0]) & set(anime_list[1])
+    common = sorted(get_common())
+    unqiue = get_unique(common)
 
-    return {"common": common}
+    print(common)
 
+    return { 
+        "common": common,
+        "unique": unqiue
+    }
+
+
+def get_titles(list):
+    titles = []
+    for entry in list:
+        titles.append(entry['node']['title'])
+    
+    return titles
+
+def get_common():
+    common_list = set(anime_list[user_list[0]])
+
+    for i in range(1, len(anime_list)):
+        common_list = common_list & set(anime_list[user_list[i]])
+    
+    return common_list
+
+
+def get_unique(common):
+    unqiue_list = {}
+
+    for elem in user_list:
+        unqiue_list[elem] = sorted(set(anime_list[elem]) - set(common))
+    
+    return unqiue_list
 
 # while True:
 #     try:
