@@ -8,7 +8,7 @@
 import requests
 import os
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -38,7 +38,7 @@ anime_list = {}
 
 
 @app.post("/calculate")
-def calculate(data : UserList):
+def calculate(data: UserList):
     global user_list
     global anime_list
 
@@ -73,6 +73,9 @@ def calculate(data : UserList):
                 temp_list.extend(get_titles(list['data']))
 
                 url = list.get('paging', {}).get('next')
+            else:
+                print(response.status_code)
+                raise HTTPException(status_code=400, detail=f"ERROR: The user {user} could not be found.")
 
         temp_list.sort()
         anime_list[user] = temp_list

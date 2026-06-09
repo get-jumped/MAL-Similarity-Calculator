@@ -32,7 +32,13 @@ async function handleCalculate()
         
         if(!response.ok)
         {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            const errorData = await response.json();
+            
+            const errorMsg = document.createElement("p");
+            errorMsg.textContent = errorData.detail;
+            common.appendChild(errorMsg);
+
+            throw new Error(JSON.stringify(errorData.detail) || "Unknown error");
         }
         const data = await response.json(); // Parses the JSON response from the server
 
