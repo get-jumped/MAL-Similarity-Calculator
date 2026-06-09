@@ -80,8 +80,6 @@ def calculate(data : UserList):
     common = sorted(get_common())
     unqiue = get_unique(common)
 
-    print(common)
-
     return { 
         "common": common,
         "unique": unqiue
@@ -107,73 +105,10 @@ def get_common():
 def get_unique(common):
     unqiue_list = {}
 
-    for elem in user_list:
-        unqiue_list[elem] = sorted(set(anime_list[elem]) - set(common))
+    for user in user_list:
+        unqiue_list[user] = anime_list[user]
+        for other in user_list:
+            if user != other:
+                unqiue_list[user] = sorted(set(unqiue_list[user]) - set(anime_list[other]))
     
     return unqiue_list
-
-# while True:
-#     try:
-#         num_users = int(input("How many users would you like to check (atleast 2): "))
-        
-#         if num_users < 2:
-#             print("Enter a number 2 or greater for comparison")
-#         else:
-#             break
-#     except ValueError:
-#         print("ERROR: Please enter an integer")
-
-
-
-# for i in range(num_users):
-#     user = input("Enter a username: ")
-
-#     url = f"https://api.myanimelist.net/v2/users/{user}/animelist"
-
-#     headers = {
-#         "X-MAL-CLIENT-ID": mal_key
-#     }
-
-#     params = {
-#         #"fields": "list_status",
-#         "limit": '500',
-#         "nsfw": 'true' #???????? needs to be on to get all anime (even not NSFW ones)
-#     }
-
-#     temp_list = []
-#     while url:
-#         response = requests.get(url, headers=headers, params=params)
-
-#         if response.status_code == 200:
-#             user_list.append(user)
-
-#             list = response.json()
-#             temp_list.extend(get_titles(list['data']))
-        
-#         url = list.get('paging', {}).get('next')
-    
-#     anime_list.append(temp_list)
-
-
-# common = set(anime_list[0]) & set(anime_list[1])
-# unique = set(anime_list[0]) ^ set(anime_list[1])
-
-# for j in range(num_users - 2):
-#     print("ENTERED", j)
-#     common = common & set(anime_list[j + 2])
-
-# print("Common: ", len(common))
-# print("Unique: ", len(unique))
-
-# show = input("Would you like to see all the anime in common (Y/N): ")
-
-# if show == 'Y' or show == 'y':
-#     print(common)
-
-# show_u = input("Would you like to see all the unique anime (Y/N): ")
-
-# if show_u == 'Y' or show_u == 'y':
-#     for index, elem in enumerate(user_list):
-#         print(f"The user {elem} has these unqie anime, {len(anime_list[index])}, {index}")
-#         print(set(anime_list[index]) - common)
-#         print()

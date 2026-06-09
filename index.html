@@ -6,44 +6,55 @@
     <title>Mal Similarity Calculator</title>
   </head>
   <body>
-    <h1>MAL Similarity Calculator</h1>
+    <header style="background-color: lightskyblue">
+      <h1>MAL Similarity Calculator</h1>
+      <!-- good place to hold navigation links -->
+      <hr />
+    </header>
 
-    <label for="status">What status should be used for similarity</label>
-    <select id="status">
-      <option value="All">All</option>
-      <option value="Completed">Completed</option>
-      <option value="Completed/Watching">Completed/Watching</option>
-      <option value="Watching">Watching</option>
-      <option value="On-Hold">On-Hold</option>
-      <option value="Dropped">Dropped</option>
-      <option value="Plan to watch">Plan to Watch</option>
-    </select>
+    <main>
+      <label for="status">What status should be used for similarity</label>
+      <select id="status">
+        <option value="All">All</option>
+        <option value="Completed">Completed</option>
+        <option value="Completed/Watching">Completed/Watching</option>
+        <option value="Watching">Watching</option>
+        <option value="On-Hold">On-Hold</option>
+        <option value="Dropped">Dropped</option>
+        <option value="Plan to watch">Plan to Watch</option>
+      </select>
 
-    <br />
+      <br />
 
-    <label for="numUsers">Number of Users</label>
-    <select id="numUsers">
-      <!-- <option value="1">1</option> -->
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-      <option value="7">7</option>
-      <option value="8">8</option>
-      <option value="9">9</option>
-      <option value="10">10</option>
-    </select>
+      <label for="numUsers">Number of Users</label>
+      <select id="numUsers">
+        <!-- <option value="1">1</option> -->
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
 
-    <button id="generateBtn">Generate</button>
+      <button id="generateBtn">Generate</button>
 
-    <!-- The textboxes will be injected inside this container -->
-    <div id="container"></div>
+      <!-- The textboxes will be injected inside this container -->
+      <div id="container"></div>
 
-    <div id="common"></div>
+      <div id="common"></div>
 
-    <div id="unique"></div>
+      <div id="unique"></div>
 
-    <script src="index.js"></script>
+      <script src="index.js"></script>
+    </main>
+
+    <footer style="background-color: lightskyblue">
+      <hr />
+      author: get_jumped <br />
+    </footer>
   </body>
 </html>
