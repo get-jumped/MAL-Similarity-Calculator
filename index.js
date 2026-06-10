@@ -67,23 +67,22 @@ function display_common(data) {
     // Add each anime as a card
     Object.keys(common_list).forEach(anime => {
         const card = document.createElement("div");
+        card.classList.add("card");
+
+        const sim_img = document.createElement("div");
+        sim_img.classList.add("sim_img");
 
         const img = document.createElement("img");
-        img.src = common_list[anime]['main_picture']['medium'];  // adjust to your actual data field
+        img.classList.add("card_img");
+        img.src = common_list[anime]['main_picture']['large'];  // adjust to your actual data field
         img.alt = anime;
-        img.style.width = "100%";
-        img.style.aspectRatio = "2/3";
-        img.style.objectFit = "cover";
-        img.style.borderRadius = "6px";
-        img.style.display = "block";
+        sim_img.appendChild(img);
 
-        const title = document.createElement("p");
+        const title = document.createElement("div");
+        title.classList.add("card_title")
         title.textContent = anime;
-        title.style.marginTop = "8px";
-        title.style.fontSize = "0.85rem";
-        title.style.textAlign = "center";
 
-        card.appendChild(img);
+        card.appendChild(sim_img);
         card.appendChild(title);
         grid.appendChild(card);
     });
@@ -110,23 +109,22 @@ function display_unique(data, num, users) {
 
         Object.keys(unique_list[users[i]]).forEach(anime => {
             const card = document.createElement("div");
+            card.classList.add("card");
+
+            const sim_img = document.createElement("div");
+            sim_img.classList.add("sim_img");
 
             const img = document.createElement("img");
-            img.src = unique_list[users[i]][anime]['main_picture']['medium'];  // adjust to your actual data field
+            img.classList.add("card_img");
+            img.src = unique_list[users[i]][anime]['main_picture']['large'];
             img.alt = anime;
-            img.style.width = "100%";
-            img.style.aspectRatio = "2/3";
-            img.style.objectFit = "cover";
-            img.style.borderRadius = "6px";
-            img.style.display = "block";
+            sim_img.appendChild(img);
 
-            const title = document.createElement("p");
+            const title = document.createElement("div");
+            title.classList.add("card_title")
             title.textContent = anime;
-            title.style.marginTop = "8px";
-            title.style.fontSize = "0.85rem";
-            title.style.textAlign = "center";
 
-            card.appendChild(img);
+            card.appendChild(sim_img);
             card.appendChild(title);
             grid.appendChild(card);
         });

@@ -1,17 +1,47 @@
 header{
-    background-color: lightskyblue;
+    background-color: royalblue;
+}
+
+body {
+    background-color: antiquewhite;
 }
 
 footer{
-    background-color: lightskyblue;
+    background-color: royalblue;
 }
 
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 18px;
+    align-items: start;
+    margin: 0 auto;       /* now works because grid has a defined width */
+    width: fit-content;   /* grid shrinks to its content width */
 }
 
-/* .card {
+.card {
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    background: antiquewhite;
+    width: 250px;
+    padding: 10px;        /* pushes image inward, making it appear smaller */
+}
 
-} */
+.sim_img {
+    width: 200px;
+    height: 300px;  
+    margin: 0 auto;
+}
+
+.card_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.card_title {
+    line-height: 1.5;
+    font-size: 1rem;
+    padding: 15px;
+    text-align: center;
+}
