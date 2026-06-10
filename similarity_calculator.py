@@ -53,7 +53,7 @@ def calculate(data: UserList):
         }
 
         params = {
-            #"fields": "list_status",
+            "fields": "list_status",
             "limit": '500',
             "nsfw": 'true', #???????? needs to be on to get all anime (even not NSFW ones)
         }
@@ -61,7 +61,7 @@ def calculate(data: UserList):
         if data.status != "All" and data.status != "Completed/Watching":
             params['status'] = data.status.lower()
 
-        temp_list = []
+        temp_list = {}
         list = None
         while url:
             response = requests.get(url, headers=headers, params=params)
@@ -70,17 +70,16 @@ def calculate(data: UserList):
                 user_list.append(user)
 
                 list = response.json()
-                temp_list.extend(get_titles(list['data']))
+                temp_list |= get_titles(list['data'])
 
                 url = list.get('paging', {}).get('next')
             else:
                 print(response.status_code)
                 raise HTTPException(status_code=400, detail=f"ERROR: The user {user} could not be found.")
 
-        temp_list.sort()
         anime_list[user] = temp_list
 
-    common = sorted(get_common())
+    common = get_common()
     unqiue = get_unique(common)
 
     return { 
@@ -90,18 +89,22 @@ def calculate(data: UserList):
 
 
 def get_titles(list):
-    titles = []
+    titles = {}
     for entry in list:
-        titles.append(entry['node']['title'])
+        titles[entry['node']['title']] = entry['node']
     
     return titles
 
 def get_common():
-    common_list = set(anime_list[user_list[0]])
+    common_list = anime_list[user_list[0]].keys()
 
     for i in range(1, len(anime_list)):
-        common_list = common_list & set(anime_list[user_list[i]])
+        common_list = common_list & anime_list[user_list[i]].keys()
     
+    common_list = sorted(common_list)
+
+    common_list = make_dict(common_list, user_list[0]) #user doesn't matter because all users should have these anime
+
     return common_list
 
 
@@ -109,9 +112,22 @@ def get_unique(common):
     unqiue_list = {}
 
     for user in user_list:
-        unqiue_list[user] = anime_list[user]
+        unqiue_list[user] = anime_list[user].keys()
         for other in user_list:
             if user != other:
-                unqiue_list[user] = sorted(set(unqiue_list[user]) - set(anime_list[other]))
+                unqiue_list[user] = unqiue_list[user] - anime_list[other].keys()
+    
+    for users in user_list:
+        unqiue_list[users] = sorted(unqiue_list[users])
+        unqiue_list[users] = make_dict(unqiue_list[users], users)
     
     return unqiue_list
+
+
+def make_dict(list, user):
+    new_dict = {}
+    
+    for elem in list:
+        new_dict[elem] = anime_list[user][elem]
+
+    return new_dict

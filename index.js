@@ -42,37 +42,96 @@ async function handleCalculate()
         }
         const data = await response.json(); // Parses the JSON response from the server
 
-        const common_list = data['common'];
-        console.log(common_list);
+        display_common(data);
 
-        const common_header = document.createElement("h2");
-        common_header.textContent = "Common Anime";
-        common.appendChild(common_header)
-
-        const common_section = document.createElement("p");
-        common_section.textContent = common_list;
-        common.appendChild(common_section);
-
-        const unique_list = data['unique'];
-        console.log(unique_list);
-
-        const unique_header = document.createElement("h2");
-        unique_header.textContent = "Unique Anime";
-        unique.appendChild(unique_header);
-
-        for(let i = 0; i < num; i++) {
-            const unique_user = document.createElement("h3");
-            unique_user.textContent = users[i];
-            unique.appendChild(unique_user);
-
-            const unique_section = document.createElement("p");
-            unique_section.textContent = unique_list[users[i]];
-            unique.appendChild(unique_section);
-        }
-
-        const unique_section = document.createElement("p")
+        display_unique(data, num, users);        
     } catch (error) {
         console.error('Error sending POST request:', error);
+    }
+}
+
+function display_common(data) {
+    const common_list = data['common'];
+    console.log(common_list);
+
+    const common_header = document.createElement("h2");
+    common_header.textContent = "Common Anime";
+    common.appendChild(common_header)
+
+    common.appendChild(document.createElement("br"));
+
+    // Create a grid container
+    const grid = document.createElement("div");
+    grid.classList.add("grid");
+
+    // Add each anime as a card
+    Object.keys(common_list).forEach(anime => {
+        const card = document.createElement("div");
+
+        const img = document.createElement("img");
+        img.src = common_list[anime]['main_picture']['medium'];  // adjust to your actual data field
+        img.alt = anime;
+        img.style.width = "100%";
+        img.style.aspectRatio = "2/3";
+        img.style.objectFit = "cover";
+        img.style.borderRadius = "6px";
+        img.style.display = "block";
+
+        const title = document.createElement("p");
+        title.textContent = anime;
+        title.style.marginTop = "8px";
+        title.style.fontSize = "0.85rem";
+        title.style.textAlign = "center";
+
+        card.appendChild(img);
+        card.appendChild(title);
+        grid.appendChild(card);
+    });
+
+    common.appendChild(grid);
+}
+
+function display_unique(data, num, users) {
+    const unique_list = data['unique'];
+    console.log(unique_list);
+
+    const unique_header = document.createElement("h2");
+    unique_header.textContent = "Unique Anime";
+    unique.appendChild(unique_header);
+
+    for(let i = 0; i < num; i++) {
+        const unique_user = document.createElement("h3");
+        unique_user.textContent = users[i];
+        unique.appendChild(unique_user);
+
+        // Create a grid container per user
+        const grid = document.createElement("div");
+        grid.classList.add("grid");
+
+        Object.keys(unique_list[users[i]]).forEach(anime => {
+            const card = document.createElement("div");
+
+            const img = document.createElement("img");
+            img.src = unique_list[users[i]][anime]['main_picture']['medium'];  // adjust to your actual data field
+            img.alt = anime;
+            img.style.width = "100%";
+            img.style.aspectRatio = "2/3";
+            img.style.objectFit = "cover";
+            img.style.borderRadius = "6px";
+            img.style.display = "block";
+
+            const title = document.createElement("p");
+            title.textContent = anime;
+            title.style.marginTop = "8px";
+            title.style.fontSize = "0.85rem";
+            title.style.textAlign = "center";
+
+            card.appendChild(img);
+            card.appendChild(title);
+            grid.appendChild(card);
+        });
+
+        unique.appendChild(grid);
     }
 }
 
