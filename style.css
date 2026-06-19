@@ -1,19 +1,61 @@
 header{
     background-color: royalblue;
+    padding: 20px 0;
 }
 
 body {
     background-color: antiquewhite;
+    margin: 0;
+    padding: 0;
 }
 
 footer{
     background-color: royalblue;
+    padding: 10px 0;
 }
 
+.block {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+/* Stuff for the introduction Section */
+.hero {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 1fr 1fr;
+    margin-left: 30px;
+    place-items: center;
+}
+
+.intro-subhead {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.intro-head {
+    font-size: 3rem;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.intro-text {
+    font-size: 1.25rem;
+    margin-top: 2px;
+}
+
+.intro-img {
+    max-width: 400px;
+    height: auto;
+}
+
+
+
+/* Stuff to format the layout the anime list */
 .grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 18px;
+    /* grid-template-columns: repeat(5, 1fr); */
+    grid-template-columns: repeat(5, minmax(0, 1fr)); /* Doesnt work currently but want to implement */
     align-items: start;
     margin: 0 auto;       /* now works because grid has a defined width */
     width: fit-content;   /* grid shrinks to its content width */
@@ -23,7 +65,6 @@ footer{
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
     background: antiquewhite;
     width: 250px;
-    padding: 10px;        /* pushes image inward, making it appear smaller */
 }
 
 .sim_img {
@@ -37,6 +78,7 @@ footer{
     height: 100%;
     object-fit: cover;
     border-radius: 6px;
+    display: block;
 }
 
 .card_title {
@@ -44,4 +86,15 @@ footer{
     font-size: 1rem;
     padding: 15px;
     text-align: center;
+    margin-top: 0;
 }
+
+.card_title > p:first-of-type {
+    margin-top: 0;
+}
+
+.card_title > p:last-of-type {
+    margin-bottom: 0;
+}
+
+/* https://www.youtube.com/watch?v=rV67qQahXAc */

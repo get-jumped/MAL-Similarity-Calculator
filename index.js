@@ -78,12 +78,15 @@ function display_common(data) {
         img.alt = anime;
         sim_img.appendChild(img);
 
-        const title = document.createElement("div");
-        title.classList.add("card_title")
+        const title_sec = document.createElement("div");
+        title_sec.classList.add("card_title")
+
+        const title = document.createElement("p");
         title.textContent = anime;
+        title_sec.appendChild(title);
 
         card.appendChild(sim_img);
-        card.appendChild(title);
+        card.appendChild(title_sec);
         grid.appendChild(card);
     });
 

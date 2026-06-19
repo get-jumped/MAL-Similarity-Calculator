@@ -95,6 +95,7 @@ def get_titles(list):
     
     return titles
 
+
 def get_common():
     common_list = anime_list[user_list[0]].keys()
 

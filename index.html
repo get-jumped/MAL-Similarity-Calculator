@@ -8,12 +8,49 @@
   </head>
   <body>
     <header>
-      <h1>MAL Similarity Calculator</h1>
+      <h1 style="padding: 20px;">MAL Similarity Calculator</h1>
       <!-- good place to hold navigation links -->
-      <hr />
     </header>
 
+    <!-- Holds introduction section -->
     <main>
+      <section class="block">
+      <div class="hero">
+        <div>
+          <h3 class="intro-subhead"></h3>
+            Find what connects (and divides) your watchlists
+          </h3>
+          <h1 class="intro-head">
+            Find similar and unique anime between MAL users.
+          </h1>
+          <p class="intro-text">
+            Enter two or more MyAnimeList usernames to instantly compare their
+            anime libraries. See which series you've both watched, what only one
+            of you has seen, and how your ratings stack up on shared titles.
+            Great for finding your next watch based on what a friend loved — or
+            discovering how different your tastes really are.
+          </p>
+          <span class="intro-text">Features:</span>
+          <ul class="intro-text">
+            <li>Side-by-side comparison of two or more MAL profiles</li>
+            <li>Shared anime with users' scores highlighted</li>
+            <li>Unique titles each user has that the other hasn't seen yet</li>
+            <li>
+              Filter by status (completed, watching, plan to watch, dropped)
+            </li>
+          </ul>
+          <div class="actions">
+            <button class="btn-primary">Primary CTA</button>
+            <a href="#">Secondary link</a>
+          </div>
+        </div>
+        <div>
+          <img class="intro-img" src="images/mal.png" alt="MyAnimeList logo" />
+        </div>
+      </div>
+      </section>
+
+      <section class="block">
       <label for="status">What status should be used for similarity</label>
       <select id="status">
         <option value="All">All</option>
@@ -45,6 +82,7 @@
 
       <!-- The textboxes will be injected inside this container -->
       <div id="container"></div>
+      </section>
 
       <div id="statistics"></div>
 
@@ -56,8 +94,8 @@
     </main>
 
     <footer>
-      <hr />
-      author: get_jumped <br />
+      Author: get_jumped <br />
+      Built using MyAnimeList API
     </footer>
   </body>
 </html>
