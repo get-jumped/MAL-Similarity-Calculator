@@ -1,6 +1,6 @@
 header{
     background-color: royalblue;
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 body {
@@ -29,7 +29,7 @@ footer{
 }
 
 .intro-subhead {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     margin-bottom: 15px;
 }
 
@@ -47,6 +47,14 @@ footer{
 .intro-img {
     max-width: 400px;
     height: auto;
+}
+
+
+.stat-sec {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
 }
 
 
@@ -98,3 +106,4 @@ footer{
 }
 
 /* https://www.youtube.com/watch?v=rV67qQahXAc */
+/* https://css-tricks.com/html-for-subheadings-and-headings/ */
