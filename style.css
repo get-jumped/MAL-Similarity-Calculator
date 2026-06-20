@@ -19,6 +19,8 @@ footer{
     margin-bottom: 40px;
 }
 
+
+
 /* Stuff for the introduction Section */
 .hero {
     display: grid;
@@ -50,9 +52,16 @@ footer{
 }
 
 
+
+/* Stuff for the stats section */
 .stat-sec {
     display: grid;
-    gap: 30px;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+}
+
+.temp-grid {
+    display: grid;
     grid-template-columns: 1fr 1fr;
     place-items: center;
 }
