@@ -88,6 +88,19 @@ def calculate(data: UserList):
     }
 
 
+@app.post("/user_stats")
+def user_stats(data: UserList):
+    stats = {}
+    # https://docs.api.jikan.moe/#/users/getuserstatistics
+    pass
+
+
+def get_graphs():
+    scores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    pass
+
+
+# Helper functions
 def get_titles(list):
     titles = {}
     for entry in list:
@@ -132,3 +145,7 @@ def make_dict(list, user):
         new_dict[elem] = anime_list[user][elem]
 
     return new_dict
+
+
+def get_scores():
+    pass

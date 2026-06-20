@@ -66,6 +66,11 @@ footer{
     place-items: center;
 }
 
+.full-width-line {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  border-top: 1px solid #ddd;
+}
 
 
 /* Stuff to format the layout the anime list */

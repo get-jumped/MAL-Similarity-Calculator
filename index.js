@@ -41,6 +41,8 @@ async function handleCalculate()
             throw new Error(JSON.stringify(errorData.detail) || "Unknown error");
         }
         const data = await response.json(); // Parses the JSON response from the server
+        console.log(data);
+        display_stats(data);
 
         display_common(data);
 
@@ -50,9 +52,14 @@ async function handleCalculate()
     }
 }
 
+function display_stats(data)
+{
+
+}
+
 function display_common(data) {
     const common_list = data['common'];
-    console.log(common_list);
+    // console.log(common_list);
 
     const common_header = document.createElement("h2");
     common_header.textContent = "Common Anime";
