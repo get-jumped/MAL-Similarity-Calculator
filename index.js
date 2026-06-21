@@ -5,7 +5,8 @@ const unique = document.getElementById("unique");
 
 async function handleCalculate()
 {
-    const url = "http://127.0.0.1:8000/calculate"; //Needs the 8000 bc uvicorn hosts server on port 8000
+    const calc_url = "http://127.0.0.1:8000/calculate"; //Needs the 8000 bc uvicorn hosts server on port 8000
+    const stat_url = "http://127.0.0.1:8000/user_stats";
     const num = document.getElementById("numUsers").value;
     const sim_type = document.getElementById("status").value
     var users = [];
@@ -19,7 +20,29 @@ async function handleCalculate()
     }
 
     try {
-        const response = await fetch(url, {
+        const response = await fetch(stat_url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                users: users
+            })
+        });
+
+        if(!response.ok)
+        {
+            console.log("AAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+        }
+
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error sending POST request:', error);
+    }
+
+    try {
+        const response = await fetch(calc_url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -41,7 +64,7 @@ async function handleCalculate()
             throw new Error(JSON.stringify(errorData.detail) || "Unknown error");
         }
         const data = await response.json(); // Parses the JSON response from the server
-        console.log(data);
+        // console.log(data);
         display_stats(data);
 
         display_common(data);
@@ -102,7 +125,7 @@ function display_common(data) {
 
 function display_unique(data, num, users) {
     const unique_list = data['unique'];
-    console.log(unique_list);
+    // console.log(unique_list);
 
     const unique_header = document.createElement("h2");
     unique_header.textContent = "Unique Anime";
@@ -174,3 +197,19 @@ generateBtn.addEventListener("click", () => {
 
     executeButton.addEventListener("click", handleCalculate);
 });
+
+function renderStats(containerId, stats) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = `
+    <p>${stats.unique} unique</p>
+    <p>Mean Score = ${stats.meanScore}</p>
+    <p>Total Entries = ${stats.totalEntries}</p>
+    <p>Days Watched = ${stats.daysWatched}</p>
+    <p>Watching = ${stats.watching}</p>
+    <p>Completed = ${stats.completed}</p>
+    <p>On Hold = ${stats.onHold}</p>
+    <p>Dropped = ${stats.dropped}</p>
+    <p>Planned to watch = ${stats.planned}</p>
+    <p>Total Episodes = ${stats.totalEpisodes}</p>
+  `;
+}

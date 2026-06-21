@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import time
 
 app = FastAPI()
 
@@ -25,6 +26,9 @@ app.add_middleware(
 class UserList(BaseModel):
     users: list[str]
     status: str
+
+class StatList(BaseModel):
+    users: list[str]
 
 # Load the environment variables from the .env file
 load_dotenv()
@@ -88,11 +92,24 @@ def calculate(data: UserList):
     }
 
 
+# into about the endpoint used in this function https://docs.api.jikan.moe/#/users/getuserstatistics
 @app.post("/user_stats")
-def user_stats(data: UserList):
+def user_stats(data: StatList):
     stats = {}
-    # https://docs.api.jikan.moe/#/users/getuserstatistics
-    pass
+    
+    for user in data.users:
+        url = f'https://api.jikan.moe/v4/users/{user}/statistics'
+
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            info = response.json()['data']
+            stats[user] = info['anime']
+        
+        # Needed because of the rate limit on the API
+        time.sleep(0.4)
+
+    return stats
 
 
 def get_graphs():
