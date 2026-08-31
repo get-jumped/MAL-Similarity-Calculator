@@ -92,7 +92,6 @@ def calculate(data: UserList):
     }
 
 
-@app.post("/user_stats")
 def user_stats(data: StatList):
     stats = {}
 
