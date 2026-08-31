@@ -92,22 +92,11 @@ def calculate(data: UserList):
     }
 
 
-# into about the endpoint used in this function https://docs.api.jikan.moe/#/users/getuserstatistics
 @app.post("/user_stats")
 def user_stats(data: StatList):
     stats = {}
-    
-    for user in data.users:
-        url = f'https://api.jikan.moe/v4/users/{user}/statistics'
 
-        response = requests.get(url)
-
-        if response.status_code == 200:
-            info = response.json()['data']
-            stats[user] = info['anime']
-        
-        # Needed because of the rate limit on the API
-        time.sleep(0.4)
+    print("THIS FUNCTION IS NOT WORKING YET. PREVIOUS API IS DEPRECATED. USE MAL API.")
 
     return stats
 
