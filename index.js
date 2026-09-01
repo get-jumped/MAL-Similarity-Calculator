@@ -78,28 +78,28 @@ async function handleCalculate()
 
 async function display_stats(data)
 {
-    const stat_url = "http://127.0.0.1:8000/user_stats";
-    try {
-        const response = await fetch(stat_url, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                users: ["get_jumped"]
-            })
-        });
+    // const stat_url = "http://127.0.0.1:8000/user_stats";
+    // try {
+    //     const response = await fetch(stat_url, {
+    //         method: "POST",
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             users: ["get_jumped"]
+    //         })
+    //     });
 
-        if(!response.ok)
-        {
-            console.log("AAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-        }
+    //     if(!response.ok)
+    //     {
+    //         console.log("AAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+    //     }
 
-        const data = await response.json();
-        console.log(data);
-    } catch (error) {
-        console.error('Error sending POST request:', error);
-    }
+    //     const data = await response.json();
+    //     console.log(data);
+    // } catch (error) {
+    //     console.error('Error sending POST request:', error);
+    // }
 }
 
 function display_common(data) {
@@ -126,7 +126,8 @@ function display_common(data) {
 
         const img = document.createElement("img");
         img.classList.add("card_img");
-        img.src = common_list[anime]['main_picture']['large'];  // adjust to your actual data field
+        console.log(common_list[anime]['node'])
+        img.src = common_list[anime]['node']['main_picture']['large'];  // adjust to your actual data field
         img.alt = anime;
         sim_img.appendChild(img);
 
@@ -171,7 +172,7 @@ function display_unique(data, num, users) {
 
             const img = document.createElement("img");
             img.classList.add("card_img");
-            img.src = unique_list[users[i]][anime]['main_picture']['large'];
+            img.src = unique_list[users[i]][anime]['node']['main_picture']['large'];
             img.alt = anime;
             sim_img.appendChild(img);
 

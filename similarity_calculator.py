@@ -86,6 +86,11 @@ class UserStats(BaseModel):
     rewatched: int = 0
 
 
+# Load the environment variables from the .env file
+load_dotenv()
+
+# Access the variables
+mal_key = os.getenv("MAL_CLIENT_ID")
 
 
 @app.post("/calculate")
