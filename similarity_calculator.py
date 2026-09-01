@@ -12,8 +12,52 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import time
+import secrets
+
+# Load the environment variables from the .env file
+load_dotenv()
+
+# Access the variables
+mal_key = os.getenv("MAL_CLIENT_ID")
+
+class KeyGenerator():
+    KEY_URL = 'https://myanimelist.net/v1/oauth2/authorize'
+
+    def __init__(self):
+        self.code_verifier = self.code_challenge = self.get_new_code_verifier()
+
+
+    def get_new_code_verifier(self) -> str:
+            token = secrets.token_urlsafe(100)
+            print(token[:128])
+            return token[:128]
+
+    def get_verifier(self):
+        return self.code_verifier
+
+    def get_challenge(self):
+        return self.code_challenge
+
+    def generate_keys(self):
+        params = {
+            "response_type": "code",
+            "client_id": mal_key,
+            "code_challenge": self.code_challenge,
+            # "state": "im not sure what this actually does AHHHHHHHHHH"
+        }
+        
+        # response = requests.get(self.KEY_URL, params=params)
+
+        # if response.status_code == 200:
+        #     print("SUCCESS")
+        # print(response.status_code, "HERE")
+
+        # print(response.request)
+
 
 app = FastAPI()
+keys = KeyGenerator()
+keys.generate_keys()
 
 app.add_middleware(
     CORSMiddleware,
@@ -42,11 +86,6 @@ class UserStats(BaseModel):
     rewatched: int = 0
 
 
-# Load the environment variables from the .env file
-load_dotenv()
-
-# Access the variables
-mal_key = os.getenv("MAL_CLIENT_ID")
 
 
 @app.post("/calculate")
@@ -84,7 +123,7 @@ def calculate(data: UserList):
 
                 url = list.get('paging', {}).get('next')
             else:
-                print(response.status_code)
+                print(response.status_code, "calc")
                 raise HTTPException(status_code=400, detail=f"ERROR: The user {user} could not be found.")
 
         anime_list[user] = temp_list

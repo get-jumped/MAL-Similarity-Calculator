@@ -2,6 +2,7 @@ const generateBtn = document.getElementById("generateBtn");
 const container = document.getElementById("container");
 const common = document.getElementById("common");
 const unique = document.getElementById("unique");
+const test = document.getElementById("test");
 
 async function handleCalculate()
 {
@@ -75,9 +76,30 @@ async function handleCalculate()
     }
 }
 
-function display_stats(data)
+async function display_stats(data)
 {
+    const stat_url = "http://127.0.0.1:8000/user_stats";
+    try {
+        const response = await fetch(stat_url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                users: ["get_jumped"]
+            })
+        });
 
+        if(!response.ok)
+        {
+            console.log("AAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+        }
+
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error sending POST request:', error);
+    }
 }
 
 function display_common(data) {
@@ -197,6 +219,8 @@ generateBtn.addEventListener("click", () => {
 
     executeButton.addEventListener("click", handleCalculate);
 });
+
+test.addEventListener("click", display_stats);
 
 function renderStats(containerId, stats) {
   const container = document.getElementById(containerId);
