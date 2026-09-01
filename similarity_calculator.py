@@ -132,8 +132,6 @@ def calculate(data: UserList):
     }
 
 
-# into about the endpoint used in this function https://docs.api.jikan.moe/#/users/getuserstatistics
-@app.post("/user_stats")
 def user_stats(data: StatList):
     pass
 

@@ -7,7 +7,7 @@ const test = document.getElementById("test");
 async function handleCalculate()
 {
     const calc_url = "http://127.0.0.1:8000/calculate"; //Needs the 8000 bc uvicorn hosts server on port 8000
-    const stat_url = "http://127.0.0.1:8000/user_stats";
+    // const stat_url = "http://127.0.0.1:8000/user_stats";
     const num = document.getElementById("numUsers").value;
     const sim_type = document.getElementById("status").value
     var users = [];
@@ -20,27 +20,27 @@ async function handleCalculate()
         users.push(document.getElementById(`textbox-${i}`).value)
     }
 
-    try {
-        const response = await fetch(stat_url, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                users: users
-            })
-        });
+    // try {
+    //     const response = await fetch(stat_url, {
+    //         method: "POST",
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             users: users
+    //         })
+    //     });
 
-        if(!response.ok)
-        {
-            console.log("AAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-        }
+    //     if(!response.ok)
+    //     {
+    //         console.log("AAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+    //     }
 
-        const data = await response.json();
-        console.log(data);
-    } catch (error) {
-        console.error('Error sending POST request:', error);
-    }
+    //     const data = await response.json();
+    //     console.log(data);
+    // } catch (error) {
+    //     console.error('Error sending POST request:', error);
+    // }
 
     try {
         const response = await fetch(calc_url, {
