@@ -27,8 +27,20 @@ class UserList(BaseModel):
     users: list[str]
     status: str
 
-class StatList(BaseModel):
-    users: list[str]
+
+class UserStats(BaseModel):
+    user: str
+    days_watched: float = 0.0
+    mean_score: float = 0.0
+    watching: int = 0
+    completed: int = 0
+    on_hold: int = 0
+    dropped: int = 0
+    plan_to_watch: int = 0
+    total_entries: int = 0
+    episodes_watched: int = 0
+    rewatched: int = 0
+
 
 # Load the environment variables from the .env file
 load_dotenv()
@@ -36,16 +48,9 @@ load_dotenv()
 # Access the variables
 mal_key = os.getenv("MAL_CLIENT_ID")
 
-user_list = []
-#should probably make a dict
-anime_list = {}
-
 
 @app.post("/calculate")
 def calculate(data: UserList):
-    global user_list
-    global anime_list
-
     user_list = []
     anime_list = {}
 
@@ -74,6 +79,7 @@ def calculate(data: UserList):
                 user_list.append(user)
 
                 list = response.json()
+                # print(list['data'])
                 temp_list |= get_titles(list['data'])
 
                 url = list.get('paging', {}).get('next')
@@ -83,8 +89,10 @@ def calculate(data: UserList):
 
         anime_list[user] = temp_list
 
-    common = get_common()
-    unqiue = get_unique(common)
+    calc_stats(anime_list, user_list)
+
+    common = get_common(anime_list, user_list)
+    unqiue = get_unique(common, anime_list, user_list)
 
     return { 
         "common": common,
@@ -92,10 +100,18 @@ def calculate(data: UserList):
     }
 
 
-def user_stats(data: StatList):
+def calc_stats(anime_list, user_list):
     stats = {}
 
-    print("THIS FUNCTION IS NOT WORKING YET. PREVIOUS API IS DEPRECATED. USE MAL API.")
+    for user in user_list:
+        user_stats = UserStats(user=user)
+
+        for anime in anime_list[user]:
+            pass
+            # print(anime_list[user][anime])
+
+
+    print("\nTHIS FUNCTION IS NOT WORKING YET. PREVIOUS API IS DEPRECATED. USE MAL API.\n")
 
     return stats
 
@@ -105,29 +121,31 @@ def get_graphs():
     pass
 
 
-# Helper functions
+######################## Helper functions
 def get_titles(list):
     titles = {}
     for entry in list:
-        titles[entry['node']['title']] = entry['node']
+        titles[entry['node']['title']] = entry
     
     return titles
 
 
-def get_common():
+def get_common(anime_list, user_list):
+    # Gets all the anime from the first user (anime_list[user_list[0]] gets all the anime from a user and the .keys() gets the titles of the anime)
     common_list = anime_list[user_list[0]].keys()
 
     for i in range(1, len(anime_list)):
+        # gets the intersection of the current common_list and the anime from the next user in the list
         common_list = common_list & anime_list[user_list[i]].keys()
     
     common_list = sorted(common_list)
 
-    common_list = make_dict(common_list, user_list[0]) #user doesn't matter because all users should have these anime
+    common_list = make_dict(common_list, user_list[0], anime_list) #user doesn't matter because all users should have these anime
 
     return common_list
 
 
-def get_unique(common):
+def get_unique(common, anime_list, user_list):
     unqiue_list = {}
 
     for user in user_list:
@@ -138,12 +156,12 @@ def get_unique(common):
     
     for users in user_list:
         unqiue_list[users] = sorted(unqiue_list[users])
-        unqiue_list[users] = make_dict(unqiue_list[users], users)
+        unqiue_list[users] = make_dict(unqiue_list[users], users, anime_list)
     
     return unqiue_list
 
 
-def make_dict(list, user):
+def make_dict(list, user, anime_list):
     new_dict = {}
     
     for elem in list:
