@@ -13,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import time
 import secrets
+from typing import Dict, Any
 
 # Load the environment variables from the .env file
 load_dotenv()
@@ -69,7 +70,12 @@ app.add_middleware(
 
 class UserList(BaseModel):
     users: list[str]
+
+
+class UserCalc(BaseModel):
+    users: list[str]
     status: str
+    data: Dict[str, Any]
 
 
 class UserStats(BaseModel):
@@ -93,8 +99,51 @@ load_dotenv()
 mal_key = os.getenv("MAL_CLIENT_ID")
 
 
+@app.post("/get_list")
+def get_list(data: UserList):
+    print("HERE IS THE THING", data.users)
+    user_list = []
+    anime_list = {}
+
+    for user in data.users:
+        url = f"https://api.myanimelist.net/v2/users/{user}/animelist"
+
+        headers = {
+            "X-MAL-CLIENT-ID": mal_key
+        }
+
+        params = {
+            "fields": "list_status",
+            "limit": '500',
+            "nsfw": 'true', #???????? needs to be on to get all anime (even not NSFW ones)
+        }
+
+        temp_list = {}
+        list = None
+        while url:
+            response = requests.get(url, headers=headers, params=params)
+
+            if response.status_code == 200:
+                user_list.append(user)
+
+                list = response.json()
+                # print(list['data'])
+                temp_list |= get_titles(list['data'])
+
+                url = list.get('paging', {}).get('next')
+            else:
+                print(response.status_code, "calc")
+                raise HTTPException(status_code=400, detail=f"ERROR: The user {user} could not be found.")
+
+        anime_list[user] = temp_list
+
+    return {
+        "user_list" : anime_list
+    }
+
+
 @app.post("/calculate")
-def calculate(data: UserList):
+def calculate(data: UserCalc):
     user_list = []
     anime_list = {}
 

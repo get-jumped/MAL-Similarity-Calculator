@@ -1,14 +1,14 @@
+// Consider sessionStorage Javascript 
+
 const generateBtn = document.getElementById("generateBtn");
 const container = document.getElementById("container");
 const common = document.getElementById("common");
 const unique = document.getElementById("unique");
 const test = document.getElementById("test");
+const num = document.getElementById("numUsers").value;
 
 async function handleCalculate()
 {
-    const calc_url = "http://127.0.0.1:8000/calculate"; //Needs the 8000 bc uvicorn hosts server on port 8000
-    // const stat_url = "http://127.0.0.1:8000/user_stats";
-    const num = document.getElementById("numUsers").value;
     const sim_type = document.getElementById("status").value
     var users = [];
 
@@ -20,27 +20,53 @@ async function handleCalculate()
         users.push(document.getElementById(`textbox-${i}`).value)
     }
 
-    // try {
-    //     const response = await fetch(stat_url, {
-    //         method: "POST",
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             users: users
-    //         })
-    //     });
+    var data = await get_lists(users);
+    if (!data) {
+        console.error("No data returned, aborting calculate.");
+        return;
+    }
+    console.log("BEFORE CALC");
+    console.log(data);
 
-    //     if(!response.ok)
-    //     {
-    //         console.log("AAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-    //     }
+    calculate(users, sim_type, data);
+}
 
-    //     const data = await response.json();
-    //     console.log(data);
-    // } catch (error) {
-    //     console.error('Error sending POST request:', error);
-    // }
+async function get_lists(users)
+{
+    const list_url = "http://127.0.0.1:8000/get_list";
+
+    try {
+        const response = await fetch(list_url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                users: users,
+            })
+        })
+        
+        if(!response.ok)
+        {
+            const errorData = await response.json();
+            
+            const errorMsg = document.createElement("p");
+            errorMsg.textContent = errorData.detail;
+            common.appendChild(errorMsg);
+
+            throw new Error(JSON.stringify(errorData.detail) || "Unknown error");
+        }
+        var data = await response.json(); // Parses the JSON response from the server
+
+        return data   
+    } catch (error) {
+        console.error('Error sending POST request:', error);
+    }
+}
+
+async function calculate(users, sim_type, lists)
+{
+    const calc_url = "http://127.0.0.1:8000/calculate"; //Needs the 8000 bc uvicorn hosts server on port 8000
 
     try {
         const response = await fetch(calc_url, {
@@ -50,7 +76,8 @@ async function handleCalculate()
             },
             body: JSON.stringify({
                 users: users,
-                status: sim_type
+                status: sim_type,
+                data: lists
             })
         })
         
@@ -65,7 +92,7 @@ async function handleCalculate()
             throw new Error(JSON.stringify(errorData.detail) || "Unknown error");
         }
         const data = await response.json(); // Parses the JSON response from the server
-        // console.log(data);
+        
         display_stats(data);
 
         display_common(data);
@@ -126,7 +153,7 @@ function display_common(data) {
 
         const img = document.createElement("img");
         img.classList.add("card_img");
-        console.log(common_list[anime]['node'])
+        // console.log(common_list[anime]['node'])
         img.src = common_list[anime]['node']['main_picture']['large'];  // adjust to your actual data field
         img.alt = anime;
         sim_img.appendChild(img);
