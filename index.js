@@ -5,10 +5,10 @@ const container = document.getElementById("container");
 const common = document.getElementById("common");
 const unique = document.getElementById("unique");
 const test = document.getElementById("test");
-const num = document.getElementById("numUsers").value;
 
 async function handleCalculate()
 {
+    const num = document.getElementById("numUsers").value;
     const sim_type = document.getElementById("status").value
     var users = [];
 
@@ -20,15 +20,18 @@ async function handleCalculate()
         users.push(document.getElementById(`textbox-${i}`).value)
     }
 
-    var data = await get_lists(users);
-    if (!data) {
+    var user_lists = await get_lists(users);
+    if (!user_lists) {
         console.error("No data returned, aborting calculate.");
         return;
     }
-    console.log("BEFORE CALC");
-    console.log(data);
 
-    calculate(users, sim_type, data);
+    display_stats(users, user_lists['user_list']);
+
+    var partition = await calculate(users, sim_type, user_lists);
+
+    display_common(partition['common']);
+    display_unique(partition['unique'], num, users);  
 }
 
 async function get_lists(users)
@@ -93,45 +96,46 @@ async function calculate(users, sim_type, lists)
         }
         const data = await response.json(); // Parses the JSON response from the server
         
-        display_stats(data);
-
-        display_common(data);
-
-        display_unique(data, num, users);        
+        return data;
     } catch (error) {
         console.error('Error sending POST request:', error);
     }
 }
 
-async function display_stats(data)
+async function display_stats(users, anime_lists)
 {
-    // const stat_url = "http://127.0.0.1:8000/user_stats";
-    // try {
-    //     const response = await fetch(stat_url, {
-    //         method: "POST",
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             users: ["get_jumped"]
-    //         })
-    //     });
+    console.log(users);
+    console.log(anime_lists);
+    const stat_url = "http://127.0.0.1:8000/get_stats";
+    try {
+        const response = await fetch(stat_url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                users: users,
+                data: anime_lists
+            })
+        });
 
-    //     if(!response.ok)
-    //     {
-    //         console.log("AAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-    //     }
+        if(!response.ok)
+        {
+            console.log("AAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+        }
 
-    //     const data = await response.json();
-    //     console.log(data);
-    // } catch (error) {
-    //     console.error('Error sending POST request:', error);
-    // }
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('ERROR WITH DISPLAY_STATS');
+        console.error('Error sending POST request:', error);
+    }
 }
 
-function display_common(data) {
-    const common_list = data['common'];
+function display_common(common_list) {
+    // console.log("COMMON LIST");
     // console.log(common_list);
+    // console.log(common_list.length);
 
     const common_header = document.createElement("h2");
     common_header.textContent = "Common Anime";
@@ -173,8 +177,8 @@ function display_common(data) {
     common.appendChild(grid);
 }
 
-function display_unique(data, num, users) {
-    const unique_list = data['unique'];
+function display_unique(unique_list, num, users) {
+    // const unique_list = data['unique'];
     // console.log(unique_list);
 
     const unique_header = document.createElement("h2");
@@ -185,6 +189,7 @@ function display_unique(data, num, users) {
         const unique_user = document.createElement("h3");
         unique_user.textContent = users[i];
         unique.appendChild(unique_user);
+        // console.log(users[i], unique_list.length);
 
         // Create a grid container per user
         const grid = document.createElement("div");

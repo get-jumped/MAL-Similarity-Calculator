@@ -2,6 +2,8 @@
 # -H 'X-MAL-CLIENT-ID:'
 # THIS IS THE ENDPOINT
 
+# NOTE IM USING POST INSTEAD OF GET FOR THESE FUNCTIONS BECAUSE THE NUMBER OF USERS IS VARIABLE
+
 # ADD A FEATURE TO FIND MISLABELED NSFW ANIME
 # uvicorn similarity_calculator:app --reload
 
@@ -13,7 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import time
 import secrets
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 # Load the environment variables from the .env file
 load_dotenv()
@@ -72,9 +74,13 @@ class UserList(BaseModel):
     users: list[str]
 
 
-class UserCalc(BaseModel):
+class UserAnime(BaseModel):
+    data: Dict[str, Any]
+
+
+class Test(BaseModel):
     users: list[str]
-    status: str
+    status: Optional[str] = None
     data: Dict[str, Any]
 
 
@@ -143,7 +149,7 @@ def get_list(data: UserList):
 
 
 @app.post("/calculate")
-def calculate(data: UserCalc):
+def calculate(data: Test):
     user_list = []
     anime_list = {}
 
@@ -182,8 +188,6 @@ def calculate(data: UserCalc):
 
         anime_list[user] = temp_list
 
-    calc_stats(anime_list, user_list)
-
     common = get_common(anime_list, user_list)
     unqiue = get_unique(common, anime_list, user_list)
 
@@ -193,16 +197,44 @@ def calculate(data: UserCalc):
     }
 
 
-def calc_stats(anime_list, user_list):
+
+@app.post("/get_stats")
+def calc_stats(test: Test):
+    user_list = test.users
+    anime_list = test.data
     stats = {}
+    print("ENTERED")
 
     for user in user_list:
         user_stats = UserStats(user=user)
+        count = 0
 
         for anime in anime_list[user]:
-            pass
-            # print(anime_list[user][anime])
+            # print(anime, anime_list[user][anime]['list_status'])
+            match anime_list[user][anime]['list_status']['status']:
+                case 'completed':
+                    user_stats.completed += 1
+                case 'watching':
+                    user_stats.watching += 1
+                case 'on_hold':
+                    user_stats.on_hold += 1
+                case 'dropped':
+                    user_stats.dropped += 1
+                case 'plan_to_watch':
+                    user_stats.plan_to_watch += 1
+                case _:
+                    pass
 
+            user_stats.episodes_watched += anime_list[user][anime]['list_status']['num_episodes_watched']
+
+            user_stats.mean_score += anime_list[user][anime]['list_status']['score']
+            count += 1
+
+        user_stats.mean_score /= count
+
+        stats[user] = user_stats
+
+        print(user_stats)
 
     print("\nTHIS FUNCTION IS NOT WORKING YET. PREVIOUS API IS DEPRECATED. USE MAL API.\n")
 
