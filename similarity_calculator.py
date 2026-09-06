@@ -86,7 +86,7 @@ class Test(BaseModel):
 
 class UserStats(BaseModel):
     user: str
-    days_watched: float = 0.0
+    # days_watched: float = 0.0
     mean_score: float = 0.0
     watching: int = 0
     completed: int = 0
@@ -95,7 +95,7 @@ class UserStats(BaseModel):
     plan_to_watch: int = 0
     total_entries: int = 0
     episodes_watched: int = 0
-    rewatched: int = 0
+    # rewatched: int = 0
 
 
 # Load the environment variables from the .env file
