@@ -234,11 +234,7 @@ def calc_stats(test: Test):
         user_stats.mean_score = round(user_stats.mean_score, 2)
         stats[user] = user_stats
 
-        print(user_stats)
-
-    print("\nTHIS FUNCTION IS NOT WORKING YET. PREVIOUS API IS DEPRECATED. USE MAL API.\n")
-
-    return stats
+    return {'stats' : stats}
 
 
 def get_graphs():

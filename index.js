@@ -126,6 +126,9 @@ async function display_stats(users, anime_lists)
 
         const data = await response.json();
         console.log(data);
+
+        renderStats('left', data['stats'][users[0]]);
+        renderStats('right', data['stats'][users[1]]);
     } catch (error) {
         console.error('ERROR WITH DISPLAY_STATS');
         console.error('Error sending POST request:', error);
@@ -258,15 +261,14 @@ test.addEventListener("click", display_stats);
 function renderStats(containerId, stats) {
   const container = document.getElementById(containerId);
   container.innerHTML = `
-    <p>${stats.unique} unique</p>
-    <p>Mean Score = ${stats.meanScore}</p>
-    <p>Total Entries = ${stats.totalEntries}</p>
-    <p>Days Watched = ${stats.daysWatched}</p>
+    
+    <p>Mean Score = ${stats.mean_score}</p>
+    <p>Total Entries = ${stats.total_entries}</p>
     <p>Watching = ${stats.watching}</p>
     <p>Completed = ${stats.completed}</p>
-    <p>On Hold = ${stats.onHold}</p>
+    <p>On Hold = ${stats.on_hold}</p>
     <p>Dropped = ${stats.dropped}</p>
-    <p>Planned to watch = ${stats.planned}</p>
-    <p>Total Episodes = ${stats.totalEpisodes}</p>
+    <p>Planned to watch = ${stats.plan_to_watch}</p>
+    <p>Total Episodes = ${stats.episodes_watched}</p>
   `;
 }
