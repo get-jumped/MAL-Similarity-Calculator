@@ -127,8 +127,26 @@ async function display_stats(users, anime_lists)
         const data = await response.json();
         console.log(data);
 
-        renderStats('left', data['stats'][users[0]]);
-        renderStats('right', data['stats'][users[1]]);
+        const name_area = document.getElementById("username-stats");
+        name_area.innerHTML = "";
+
+        const stat_area = document.getElementById("display-stats");
+        stat_area.innerHTML = "";
+        
+        for(let i = 0; i < users.length; i ++)
+        {
+            const nameplate = document.createElement('h3');
+            nameplate.id = `user${i + 1}`;
+            nameplate.textContent = users[i];
+            name_area.appendChild(nameplate);
+
+            const user_stats = document.createElement('div');
+            user_stats.id = `user${i + 1}_stats`;
+            nameplate.className = "stat-elem";
+            stat_area.appendChild(user_stats);
+            
+            renderStats(`user${i + 1}_stats`, data['stats'][users[i]]);
+        }
     } catch (error) {
         console.error('ERROR WITH DISPLAY_STATS');
         console.error('Error sending POST request:', error);
