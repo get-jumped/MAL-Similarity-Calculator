@@ -107,7 +107,6 @@ mal_key = os.getenv("MAL_CLIENT_ID")
 
 @app.post("/get_list")
 def get_list(data: UserList):
-    print("HERE IS THE THING", data.users)
     user_list = []
     anime_list = {}
 
@@ -203,10 +202,10 @@ def calc_stats(test: Test):
     user_list = test.users
     anime_list = test.data
     stats = {}
-    print("ENTERED")
 
     for user in user_list:
         user_stats = UserStats(user=user)
+        user_stats.total_entries = len(anime_list[user])
         count = 0
 
         for anime in anime_list[user]:
@@ -227,11 +226,12 @@ def calc_stats(test: Test):
 
             user_stats.episodes_watched += anime_list[user][anime]['list_status']['num_episodes_watched']
 
-            user_stats.mean_score += anime_list[user][anime]['list_status']['score']
-            count += 1
+            if anime_list[user][anime]['list_status']['score'] != 0:
+                user_stats.mean_score += anime_list[user][anime]['list_status']['score']
+                count += 1
 
         user_stats.mean_score /= count
-
+        user_stats.mean_score = round(user_stats.mean_score, 2)
         stats[user] = user_stats
 
         print(user_stats)
