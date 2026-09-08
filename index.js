@@ -9,7 +9,7 @@ const test = document.getElementById("test");
 async function handleCalculate()
 {
     const num = document.getElementById("numUsers").value;
-    const sim_type = document.getElementById("status").value
+    const sim_type = document.getElementById("status").value;
     var users = [];
 
     common.innerHTML = "";
@@ -26,10 +26,18 @@ async function handleCalculate()
         return;
     }
 
-    display_stats(users, user_lists['user_list']);
-
     var partition = await calculate(users, sim_type, user_lists);
 
+    var num_unique = [];
+    Object.keys(partition['unique']).forEach(key => {
+        num_unique.push(Object.keys(partition['unique'][key]).length);
+    });
+
+    console.log(num_unique);
+    console.log(Object.keys(partition['common']).length);
+    console.log(partition['common'])
+
+    display_stats(users, user_lists['user_list'], num_unique);
     display_common(partition['common']);
     display_unique(partition['unique'], num, users);  
 }
@@ -102,10 +110,8 @@ async function calculate(users, sim_type, lists)
     }
 }
 
-async function display_stats(users, anime_lists)
+async function display_stats(users, anime_lists, num_unique)
 {
-    console.log(users);
-    console.log(anime_lists);
     const stat_url = "http://127.0.0.1:8000/get_stats";
     try {
         const response = await fetch(stat_url, {
@@ -145,7 +151,7 @@ async function display_stats(users, anime_lists)
             nameplate.className = "stat-elem";
             stat_area.appendChild(user_stats);
             
-            renderStats(`user${i + 1}_stats`, data['stats'][users[i]]);
+            renderStats(`user${i + 1}_stats`, data['stats'][users[i]], num_unique[i]);
         }
     } catch (error) {
         console.error('ERROR WITH DISPLAY_STATS');
@@ -276,10 +282,10 @@ generateBtn.addEventListener("click", () => {
 
 test.addEventListener("click", display_stats);
 
-function renderStats(containerId, stats) {
+function renderStats(containerId, stats, unique) {
   const container = document.getElementById(containerId);
   container.innerHTML = `
-    
+    <p>${unique} unique</p>
     <p>Mean Score = ${stats.mean_score}</p>
     <p>Total Entries = ${stats.total_entries}</p>
     <p>Watching = ${stats.watching}</p>
