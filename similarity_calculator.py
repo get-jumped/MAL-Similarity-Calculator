@@ -253,14 +253,26 @@ def get_titles(list):
 
 def get_common(anime_list, user_list):
     # Gets all the anime from the first user (anime_list[user_list[0]] gets all the anime from a user and the .keys() gets the titles of the anime)
-    common_list = anime_list[user_list[0]].keys()
+    # common_list = anime_list[user_list[0]].keys()
+
+    # for i in range(1, len(anime_list)):
+    #     # gets the intersection of the current common_list and the anime from the next user in the list
+    #     common_list = common_list & anime_list[user_list[i]].keys()
+    #
+    # common_list = sorted(common_list)
+
+    # common_list = make_dict(common_list, user_list[0], anime_list) #user doesn't matter because all users should have these anime
+
+    # return common_list
+    common_list = set()
 
     for i in range(1, len(anime_list)):
-        # gets the intersection of the current common_list and the anime from the next user in the list
-        common_list = common_list & anime_list[user_list[i]].keys()
-    
-    common_list = sorted(common_list)
+        for anime in anime_list[user_list[i]].keys():
+            if anime_list[user_list[i]][anime]['list_status']['status'] != 'plan_to_watch':
+                common_list.add(anime)
 
+    common_list = sorted(common_list)
+    
     common_list = make_dict(common_list, user_list[0], anime_list) #user doesn't matter because all users should have these anime
 
     return common_list
