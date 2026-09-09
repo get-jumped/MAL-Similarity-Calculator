@@ -279,10 +279,7 @@ def get_unique(common, anime_list, user_list):
     unqiue_list = {}
 
     for user in user_list:
-        unqiue_list[user] = anime_list[user].keys()
-        for other in user_list:
-            if user != other:
-                unqiue_list[user] = unqiue_list[user] - anime_list[other].keys()
+        unqiue_list[user] = anime_list[user].keys() ^ common.keys()
     
     for users in user_list:
         unqiue_list[users] = sorted(unqiue_list[users])
