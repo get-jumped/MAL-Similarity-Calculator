@@ -33,8 +33,8 @@ async function handleCalculate()
         num_unique.push(Object.keys(partition['unique'][key]).length);
     });
 
-    console.log(num_unique);
-    console.log(Object.keys(partition['common']).length);
+    console.log("UNQIUE ", num_unique);
+    console.log("COMMON ", Object.keys(partition['common']).length);
     console.log(partition['common'])
 
     display_stats(users, user_lists['user_list'], num_unique);
