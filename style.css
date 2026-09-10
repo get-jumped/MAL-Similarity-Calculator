@@ -60,9 +60,13 @@ footer{
     place-items: center;
 }
 
+:root {
+    --grid-cols: 2;
+}
+
 .temp-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(var(--grid-cols), 1fr);
     place-items: center;
 }
 

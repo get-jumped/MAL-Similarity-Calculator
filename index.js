@@ -135,8 +135,7 @@ async function display_stats(users, anime_lists, num_unique)
 
         const name_area = document.getElementById("username-stats");
         name_area.innerHTML = "";
-        const name_grid = document.querySelector('.temp-grid');
-        name_grid.style.gridTemplateColumns = `repeat(${users.length}, 1fr)`;
+        document.documentElement.style.setProperty('--grid-cols', users.length)
 
         const stat_area = document.getElementById("display-stats");
         stat_area.innerHTML = "";
