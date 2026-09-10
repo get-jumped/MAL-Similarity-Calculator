@@ -37,7 +37,7 @@ async function handleCalculate()
     console.log("COMMON ", Object.keys(partition['common']).length);
     console.log(partition['common'])
 
-    display_stats(users, user_lists['user_list'], num_unique);
+    display_stats(users, user_lists['user_list'], num_unique, Object.keys(partition['common']).length);
     display_common(partition['common']);
     display_unique(partition['unique'], num, users);  
 }
@@ -110,7 +110,7 @@ async function calculate(users, sim_type, lists)
     }
 }
 
-async function display_stats(users, anime_lists, num_unique)
+async function display_stats(users, anime_lists, num_unique, common_length)
 {
     const stat_url = "http://127.0.0.1:8000/get_stats";
     try {
@@ -132,6 +132,9 @@ async function display_stats(users, anime_lists, num_unique)
 
         const data = await response.json();
         console.log(data);
+
+        const share_area = document.getElementById('shared');
+        share_area.innerHTML = `Shared = ${common_length}`;
 
         const name_area = document.getElementById("username-stats");
         name_area.innerHTML = "";
