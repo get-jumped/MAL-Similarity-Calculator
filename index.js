@@ -218,7 +218,13 @@ function display_unique(unique_list, num, users) {
 
     for(let i = 0; i < num; i++) {
         const unique_user = document.createElement("h3");
-        unique_user.textContent = users[i];
+        const user_hyperlink = document.createElement("a");
+
+        //Sets up hyperlink
+        user_hyperlink.href = `https://myanimelist.net/profile/${users[i]}`;
+        user_hyperlink.target = '_blank';
+        user_hyperlink.textContent = users[i];
+        unique_user.appendChild(user_hyperlink);
         unique.appendChild(unique_user);
         // console.log(users[i], unique_list.length);
 
