@@ -37,9 +37,9 @@ async function handleCalculate()
     console.log("COMMON ", Object.keys(partition['common']).length);
     console.log(partition['common'])
 
-    display_stats(users, user_lists['user_list'], num_unique, Object.keys(partition['common']).length);
     display_common(partition['common']);
     display_unique(partition['unique'], num, users);  
+    display_stats(users, user_lists['user_list'], num_unique, Object.keys(partition['common']).length);
 }
 
 async function get_lists(users)
@@ -147,7 +147,12 @@ async function display_stats(users, anime_lists, num_unique, common_length)
         {
             const nameplate = document.createElement('h3');
             nameplate.id = `user${i + 1}`;
-            nameplate.textContent = users[i];
+
+            const user_hyperlink = document.createElement('a');
+            user_hyperlink.href = `#${users[i]}-unique`;
+            user_hyperlink.textContent = users[i];
+            nameplate.appendChild(user_hyperlink);
+
             name_area.appendChild(nameplate);
 
             const user_stats = document.createElement('div');
@@ -218,6 +223,7 @@ function display_unique(unique_list, num, users) {
 
     for(let i = 0; i < num; i++) {
         const unique_user = document.createElement("h3");
+        unique_user.id = `${users[i]}-unique`;
         const user_hyperlink = document.createElement("a");
 
         //Sets up hyperlink
