@@ -174,6 +174,7 @@ function display_common(common_list) {
     // console.log(common_list.length);
 
     const common_header = document.createElement("h2");
+    common_header.classList.add("display-titles");
     common_header.textContent = "Common Anime";
     common.appendChild(common_header)
 
@@ -218,11 +219,13 @@ function display_unique(unique_list, num, users) {
     // console.log(unique_list);
 
     const unique_header = document.createElement("h2");
+    unique_header.classList.add("display-titles");
     unique_header.textContent = "Unique Anime";
     unique.appendChild(unique_header);
 
     for(let i = 0; i < num; i++) {
         const unique_user = document.createElement("h3");
+        unique_user.classList.add("display-users");
         unique_user.id = `${users[i]}-unique`;
         const user_hyperlink = document.createElement("a");
 

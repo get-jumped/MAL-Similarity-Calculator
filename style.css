@@ -16,6 +16,7 @@ footer{
 
 .block {
     margin-top: 40px;
+    margin-left: 30px;
     margin-bottom: 40px;
 }
 
@@ -78,6 +79,14 @@ footer{
 
 
 /* Stuff to format the layout the anime list */
+.display-titles {
+    margin-left: 15px;
+}
+
+.display-users {
+    text-align: center;
+}
+
 .grid {
     display: grid;
     /* grid-template-columns: repeat(5, 1fr); */
