@@ -108,7 +108,7 @@ mal_key = os.getenv("MAL_CLIENT_ID")
 @app.post("/get_list")
 def get_list(data: UserList):
     # Lists used for conditions which use some statuses but not all
-    MAL_STATUS = ['completed', 'watching', 'dropped']
+    MAL_STATUS = ['completed', 'watching', 'on_hold', 'dropped']
     CW = ['completed', 'watching']
 
     user_list = []
@@ -256,13 +256,6 @@ def get_common(anime_list, user_list):
 
     temp = common_list.copy()
 
-    for anime in common_list:
-        for j in user_list:
-            if anime_list[j][anime]['list_status']['status'] == 'plan_to_watch':
-                temp.remove(anime)
-                break
-
-    
     common_list = sorted(temp)
 
     common_list = make_dict(common_list, user_list[0], anime_list) #user doesn't matter because all users should have these anime
