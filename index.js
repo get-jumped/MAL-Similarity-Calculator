@@ -20,13 +20,13 @@ async function handleCalculate()
         users.push(document.getElementById(`textbox-${i}`).value)
     }
 
-    var user_lists = await get_lists(users);
+    var user_lists = await get_lists(users, status_type);
     if (!user_lists) {
         console.error("No data returned, aborting calculate.");
         return;
     }
 
-    var partition = await calculate(users, status_type, user_lists);
+    var partition = await calculate(users, status_type);
 
     var num_unique = [];
     Object.keys(partition['unique']).forEach(key => {
@@ -42,7 +42,7 @@ async function handleCalculate()
     display_stats(users, user_lists['user_list'], num_unique, Object.keys(partition['common']).length);
 }
 
-async function get_lists(users)
+async function get_lists(users, status)
 {
     const list_url = "http://127.0.0.1:8000/get_list";
 
@@ -54,6 +54,7 @@ async function get_lists(users)
             },
             body: JSON.stringify({
                 users: users,
+                status: status
             })
         })
         
@@ -75,7 +76,7 @@ async function get_lists(users)
     }
 }
 
-async function calculate(users, status_type, lists)
+async function calculate(users, status_type)
 {
     const calc_url = "http://127.0.0.1:8000/calculate"; //Needs the 8000 bc uvicorn hosts server on port 8000
 
@@ -88,7 +89,6 @@ async function calculate(users, status_type, lists)
             body: JSON.stringify({
                 users: users,
                 status: status_type,
-                data: lists
             })
         })
         

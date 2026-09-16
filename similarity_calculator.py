@@ -72,6 +72,7 @@ app.add_middleware(
 
 class UserList(BaseModel):
     users: list[str]
+    status: str
 
 
 # class UserAnime(BaseModel):
@@ -80,7 +81,6 @@ class UserList(BaseModel):
 
 class UserAnime(BaseModel):
     users: list[str]
-    status: Optional[str] = None
     data: Dict[str, Any]
 
 
@@ -149,11 +149,11 @@ def get_list(data: UserList):
 
 @app.post("/calculate")
 def calculate(data: UserList):
-
     url = f"http://127.0.0.1:8000/get_list"
     
     payload = {
-        "users": data.users
+        "users": data.users,
+        "status": data.status
     }
 
     response = requests.post(url, json=payload)
@@ -169,7 +169,6 @@ def calculate(data: UserList):
         "common": common,
         "unique": unqiue
     }
-
 
 
 @app.post("/get_stats")
