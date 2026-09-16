@@ -107,6 +107,10 @@ mal_key = os.getenv("MAL_CLIENT_ID")
 
 @app.post("/get_list")
 def get_list(data: UserList):
+    # Lists used for conditions which use some statuses but not all
+    MAL_STATUS = ['completed', 'watching', 'dropped']
+    CW = ['completed', 'watching']
+
     user_list = []
     anime_list = {}
 
@@ -123,6 +127,15 @@ def get_list(data: UserList):
             "nsfw": 'true', #???????? needs to be on to get all anime (even not NSFW ones)
         }
 
+        all_status = ['MAL', 'All', 'Completed/Watching']
+        include_status = []
+        if data.status not in all_status:
+            params['status'] = data.status.lower()
+        elif data.status == 'All':
+            pass
+        else:
+            include_status = MAL_STATUS if data.status == 'MAL' else CW
+
         temp_list = {}
         list = None
         while url:
@@ -137,8 +150,16 @@ def get_list(data: UserList):
 
                 url = list.get('paging', {}).get('next')
             else:
-                print(response.status_code, "calc")
+                print(response.status_code, "get_list")
                 raise HTTPException(status_code=400, detail=f"ERROR: The user {user} could not be found.")
+
+        if len(include_status) != 0:
+            temp = {}
+            for key, value in temp_list.items():
+                if value['list_status']['status'] in include_status:
+                    temp[key] = value
+
+            temp_list = temp
 
         anime_list[user] = temp_list
 
