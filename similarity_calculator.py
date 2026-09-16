@@ -148,47 +148,22 @@ def get_list(data: UserList):
 
 
 @app.post("/calculate")
-def calculate(data: UserAnime):
-    user_list = []
-    anime_list = {}
+def calculate(data: UserList):
 
-    for user in data.users:
-        url = f"https://api.myanimelist.net/v2/users/{user}/animelist"
+    url = f"http://127.0.0.1:8000/get_list"
+    
+    payload = {
+        "users": data.users
+    }
 
-        headers = {
-            "X-MAL-CLIENT-ID": mal_key
-        }
+    response = requests.post(url, json=payload)
 
-        params = {
-            "fields": "list_status",
-            "limit": '500',
-            "nsfw": 'true', #???????? needs to be on to get all anime (even not NSFW ones)
-        }
+    if response.status_code != 200:
+        print("BIG ERROR")
+        raise HTTPException(status_code=400, detail=f"BIG ERROR.")
 
-        if data.status != "All" and data.status != "Completed/Watching":
-            params['status'] = data.status.lower()
-
-        temp_list = {}
-        list = None
-        while url:
-            response = requests.get(url, headers=headers, params=params)
-
-            if response.status_code == 200:
-                user_list.append(user)
-
-                list = response.json()
-                # print(list['data'])
-                temp_list |= get_titles(list['data'])
-
-                url = list.get('paging', {}).get('next')
-            else:
-                print(response.status_code, "calc")
-                raise HTTPException(status_code=400, detail=f"ERROR: The user {user} could not be found.")
-
-        anime_list[user] = temp_list
-
-    common = get_common(anime_list, user_list)
-    unqiue = get_unique(common, anime_list, user_list)
+    common = get_common(response.json()['user_list'], data.users)
+    unqiue = get_unique(common, response.json()['user_list'], data.users)
 
     return { 
         "common": common,
