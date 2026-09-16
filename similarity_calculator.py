@@ -74,11 +74,11 @@ class UserList(BaseModel):
     users: list[str]
 
 
+# class UserAnime(BaseModel):
+#     data: Dict[str, Any]
+
+
 class UserAnime(BaseModel):
-    data: Dict[str, Any]
-
-
-class Test(BaseModel):
     users: list[str]
     status: Optional[str] = None
     data: Dict[str, Any]
@@ -148,7 +148,7 @@ def get_list(data: UserList):
 
 
 @app.post("/calculate")
-def calculate(data: Test):
+def calculate(data: UserAnime):
     user_list = []
     anime_list = {}
 
@@ -198,7 +198,7 @@ def calculate(data: Test):
 
 
 @app.post("/get_stats")
-def calc_stats(test: Test):
+def calc_stats(test: UserAnime):
     user_list = test.users
     anime_list = test.data
     stats = {}

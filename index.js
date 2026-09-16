@@ -9,7 +9,7 @@ const test = document.getElementById("test");
 async function handleCalculate()
 {
     const num = document.getElementById("numUsers").value;
-    const sim_type = document.getElementById("status").value;
+    const status_type = document.getElementById("status").value;
     var users = [];
 
     common.innerHTML = "";
@@ -26,7 +26,7 @@ async function handleCalculate()
         return;
     }
 
-    var partition = await calculate(users, sim_type, user_lists);
+    var partition = await calculate(users, status_type, user_lists);
 
     var num_unique = [];
     Object.keys(partition['unique']).forEach(key => {
@@ -75,7 +75,7 @@ async function get_lists(users)
     }
 }
 
-async function calculate(users, sim_type, lists)
+async function calculate(users, status_type, lists)
 {
     const calc_url = "http://127.0.0.1:8000/calculate"; //Needs the 8000 bc uvicorn hosts server on port 8000
 
@@ -87,7 +87,7 @@ async function calculate(users, sim_type, lists)
             },
             body: JSON.stringify({
                 users: users,
-                status: sim_type,
+                status: status_type,
                 data: lists
             })
         })
