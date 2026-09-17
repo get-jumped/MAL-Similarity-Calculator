@@ -2,7 +2,6 @@ A program to find all the anime that users have in common
 
 TODO
 
-- Mongo database to store lists instead of on webpage
 - make usernames font bigger
 - maybe make each person's unique list to a different page
 - add the possibility to deselect people like check boxes

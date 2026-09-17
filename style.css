@@ -1,3 +1,24 @@
+/* ==========================================================================
+   MAL Similarity Calculator
+   Palette: MAL-blue ink on cool paper. Each user owns a colour (blue / amber)
+   and that colour follows them through every stat, bar and card badge.
+   Type: Zen Kaku Gothic New — a Japanese family with a full Latin set.
+   ========================================================================== */
+
+:root {
+    --ink: #171b31;
+    --ink-soft: #5a6080;
+    --paper: #eef0f6;
+    --card: #ffffff;
+    --rule: #d2d7e4;
+
+    --user-a: #2f4bd8;
+    --user-b: #d98613;
+    --brand: var(--user-a);
+    
+    --grid-cols: 2;
+}
+
 header{
     background-color: royalblue;
     padding: 10px 0;
@@ -59,10 +80,6 @@ footer{
     display: grid;
     grid-template-columns: 1fr;
     place-items: center;
-}
-
-:root {
-    --grid-cols: 2;
 }
 
 .temp-grid {
