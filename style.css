@@ -15,24 +15,52 @@
     --user-a: #2f4bd8;
     --user-b: #d98613;
     --brand: var(--user-a);
-    
+
+    /* Type scale, perfect fourth (1.333) off a 16px base */
+    --t-xs: 0.75rem;
+    --t-sm: 0.875rem;
+    --t-base: 1rem;
+    --t-md: 1.333rem;
+    --t-lg: 1.777rem;
+    --t-xl: 2.369rem;
+    --t-2xl: 3.157rem;
+
+    /* CHANGE SIZE OF SHELL LATER */
+    --shell: 1140px;
     --grid-cols: 2;
 }
 
-header{
-    background-color: royalblue;
-    padding: 10px 0;
+.site-header{
+    background: var(--ink);
+    color: var(--paper);
+    border-bottom: 3px solid var(--user-a);
+}
+
+.site-header .shell {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding-block: 1.1rem;
 }
 
 body {
-    background-color: antiquewhite;
     margin: 0;
-    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", system-ui,
+        sans-serif;
+    /* font-size: var(--t-base); */
+    line-height: 1.6;
 }
 
 footer{
     background-color: royalblue;
     padding: 10px 0;
+}
+
+.shell {
+  width: min(100% - 3rem, var(--shell));
+  margin-inline: auto;
 }
 
 .block {
@@ -151,3 +179,19 @@ footer{
 
 /* https://www.youtube.com/watch?v=rV67qQahXAc */
 /* https://css-tricks.com/html-for-subheadings-and-headings/ */
+
+/* New STUFF */
+.wordmark {
+    font-size: var(--t-md);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+}
+
+.wordmark span {
+    color: var(--user-b);
+}
+
+.site-header p {
+    font-size: var(--t-sm);
+    color: #a8afca;
+}
