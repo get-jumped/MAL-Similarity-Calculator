@@ -180,12 +180,66 @@ footer{
   background: var(--user-b);
 }
 
-.intro-img {
+/* .intro-img {
     max-width: 400px;
     height: auto;
+} */
+
+/* --- Input panel ---------------------------------------------------------- */
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-top: 4px solid var(--user-a);
+  padding: 1.75rem;
+  position: sticky;
+  top: 1.5rem; /* Needed to make sure the sticky position works */
 }
 
+.panel h2 {
+    margin-bottom: 0.5rem;
+}
 
+.panel-note {
+    font-size: var(--t-base);
+    color: var(--ink-soft);
+    max-width: var(--measure);
+    margin-bottom: 1rem;
+}
+
+.field {
+  margin-bottom: 1.1rem;
+}
+
+.field label {
+  display: block;
+  font-size: var(--t-sm);
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.field select,
+input[type="text"] {
+  width: 100%;
+  font: inherit;
+  font-size: var(--t-sm);
+  padding: 0.6rem 0.7rem;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--ink-soft);
+  border-radius: 3px;
+}
+
+.field select:hover,
+input[type="text"]:hover {
+  border-color: var(--ink);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 7rem;
+  gap: 1rem;
+}
 
 /* Stuff for the stats section */
 .stat-sec {

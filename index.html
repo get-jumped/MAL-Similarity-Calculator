@@ -51,17 +51,47 @@
               </li>
             </ul>
           </div>
-          <div>
-            <img
-              class="intro-img"
-              src="images/mal.png"
-              alt="MyAnimeList logo"
-            />
+          <div class="panel">
+            <h2>Compare Lists</h2>
+            <p class="panel-note">
+              MAL usernames are case-sensitive and lists must be public.
+            </p>
+            <div class="field field-row">
+              <div>
+                <label for="status">Status used for similarity</label>
+                <select id="status">
+                  <option value="MAL">MAL</option>
+                  <option value="All">All</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Completed/Watching">Completed/Watching</option>
+                  <option value="Watching">Watching</option>
+                  <option value="On-Hold">On-Hold</option>
+                  <option value="Dropped">Dropped</option>
+                  <option value="Plan to watch">Plan to Watch</option>
+                </select>
+              </div>
+
+              <div>
+                <!-- Drop down menu where the user chooses how many uses to check -->
+                <label for="numUsers">Users</label>
+                <select id="numUsers">
+                  <!-- <option value="1">1</option> -->
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <!-- <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option> -->
+                </select>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
-
-      <button id="test">TEST BUTTON</button>
 
       <!-- Drop down menu that chooses what status to use for calculation -->
       <section class="block">
