@@ -269,6 +269,7 @@ function display_unique(unique_list, num, users) {
 
 generateBtn.addEventListener("click", () => {
     const count = parseInt(document.getElementById("numUsers").value);
+    const actions = document.getElementById("actions");
 
     container.innerHTML = "";
 
@@ -294,7 +295,7 @@ generateBtn.addEventListener("click", () => {
     executeButton.textContent = "Calculate";
     executeButton.style.width = '150px';
     executeButton.style.height = '50px';
-    container.appendChild(executeButton);
+    actions.appendChild(executeButton);
 
     executeButton.addEventListener("click", handleCalculate);
 });
