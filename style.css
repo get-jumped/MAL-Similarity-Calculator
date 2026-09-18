@@ -26,9 +26,50 @@
     --t-2xl: 3.157rem;
 
     /* CHANGE SIZE OF SHELL LATER */
+    --measure: 62ch;
     --shell: 1140px;
     --grid-cols: 2;
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+  font-weight: 900;
+}
+
+body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", system-ui,
+        sans-serif;
+    font-size: var(--t-base);
+    line-height: 1.6;
+}
+
+p {
+  margin: 0;
+}
+
+
+
+
+
+
+
 
 .site-header{
     background: var(--ink);
@@ -43,14 +84,20 @@
   padding-block: 1.1rem;
 }
 
-body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", system-ui,
-        sans-serif;
-    /* font-size: var(--t-base); */
-    line-height: 1.6;
+/* New STUFF */
+.wordmark {
+    font-size: var(--t-md);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+}
+
+.wordmark span {
+    color: var(--user-b);
+}
+
+.site-header p {
+    font-size: var(--t-sm);
+    color: #a8afca;
 }
 
 footer{
@@ -58,42 +105,79 @@ footer{
     padding: 10px 0;
 }
 
+
+
+
+
+
 .shell {
   width: min(100% - 3rem, var(--shell));
   margin-inline: auto;
 }
 
 .block {
-    margin-top: 40px;
-    margin-left: 30px;
-    margin-bottom: 40px;
+  padding-block: 4rem;
 }
 
+.block + .block {
+  border-top: 1px solid var(--rule);
+}
 
 
 /* Stuff for the introduction Section */
 .hero {
-    display: grid;
-    gap: 30px;
-    grid-template-columns: 1fr 1fr;
-    margin-left: 30px;
-    place-items: center;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 3.5rem;
+  align-items: start;
 }
 
 .intro-subhead {
-    font-size: 1.25rem;
-    margin-bottom: 15px;
+    font-size: var(--t-base);
+    color: var(--user-a);
+    font-weight: 700;
+    margin-bottom: 1rem;
 }
 
 .intro-head {
-    font-size: 3rem;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    font-size: var(--t-2xl);
+    max-width: 14ch;
+    margin-bottom: 1.5rem;
 }
 
 .intro-text {
-    font-size: 1.25rem;
-    margin-top: 2px;
+    font-size: var(--t-base);
+    color: var(--ink-soft);
+    max-width: var(--measure);
+    margin-bottom: 1rem;
+}
+
+.feature-list {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+  max-width: var(--measure);
+}
+
+.feature-list li {
+  padding: 0.7rem 0 0.7rem 1.6rem;
+  border-top: 1px solid var(--rule);
+  position: relative;
+  font-size: var(--t-sm);
+}
+
+.feature-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.15rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--user-a);
+}
+
+.feature-list li:nth-child(even)::before {
+  background: var(--user-b);
 }
 
 .intro-img {
@@ -179,19 +263,3 @@ footer{
 
 /* https://www.youtube.com/watch?v=rV67qQahXAc */
 /* https://css-tricks.com/html-for-subheadings-and-headings/ */
-
-/* New STUFF */
-.wordmark {
-    font-size: var(--t-md);
-    font-weight: 900;
-    letter-spacing: -0.03em;
-}
-
-.wordmark span {
-    color: var(--user-b);
-}
-
-.site-header p {
-    font-size: var(--t-sm);
-    color: #a8afca;
-}
