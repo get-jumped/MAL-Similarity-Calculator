@@ -241,6 +241,47 @@ input[type="text"]:hover {
   gap: 1rem;
 }
 
+#container {
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+#container input {
+  border-left: 4px solid var(--rule);
+}
+
+#container input:nth-child(odd) {
+  border-left-color: var(--user-a);
+}
+
+#container input:nth-child(even) {
+  border-left-color: var(--user-b);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--user-a);
+  border: none;
+  border-radius: 3px;
+  padding: 0.7rem 1.6rem;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #2339ab;
+}
+
+
 /* Stuff for the stats section */
 .stat-sec {
     display: grid;
