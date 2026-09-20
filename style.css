@@ -284,9 +284,8 @@ input[type="text"]:hover {
 
 /* Stuff for the stats section */
 .stat-sec {
-    display: grid;
-    grid-template-columns: 1fr;
-    place-items: center;
+    text-align: center;
+    margin-bottom: 2.5rem;
 }
 
 .stat-sec h2 {
@@ -295,16 +294,27 @@ input[type="text"]:hover {
 
 .temp-grid {
     display: grid;
-    grid-template-columns: repeat(var(--grid-cols), 1fr);
-    place-items: center;
+    grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+    gap: 2rem;
 }
 
+#username-stats h3 {
+  font-size: var(--t-md);
+  text-align: center;
+  padding-bottom: 0.6rem;
+  border-bottom: 4px solid var(--user-a);
+}
+
+#username-stats h3:nth-child(even) {
+  border-bottom-color: var(--user-b);
+}
+
+hr,
 .full-width-line {
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  border-top: 1px solid #ddd;
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 1.5rem 0;
 }
-
 
 /* Stuff to format the layout the anime list */
 .display-titles {

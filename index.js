@@ -291,8 +291,8 @@ generateBtn.addEventListener("click", () => {
     container.appendChild(lineBreak);
 
     const executeButton = document.createElement("button");
-    executeButton.id = "Compare Lists";
-    executeButton.textContent = "Calculate";
+    executeButton.id = "calculate";
+    executeButton.textContent = "Compare Lists";
     executeButton.style.width = '150px';
     executeButton.style.height = '50px';
     actions.appendChild(executeButton);
