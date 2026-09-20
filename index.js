@@ -4,7 +4,6 @@ const generateBtn = document.getElementById("generateBtn");
 const container = document.getElementById("container");
 const common = document.getElementById("common");
 const unique = document.getElementById("unique");
-const test = document.getElementById("test");
 
 async function handleCalculate()
 {
@@ -157,7 +156,7 @@ async function display_stats(users, anime_lists, num_unique, common_length)
 
             const user_stats = document.createElement('div');
             user_stats.id = `user${i + 1}_stats`;
-            nameplate.className = "stat-elem";
+            user_stats.className = "stat-elem";
             stat_area.appendChild(user_stats);
             
             renderStats(`user${i + 1}_stats`, data['stats'][users[i]], num_unique[i]);
@@ -299,8 +298,6 @@ generateBtn.addEventListener("click", () => {
 
     executeButton.addEventListener("click", handleCalculate);
 });
-
-test.addEventListener("click", display_stats);
 
 function renderStats(containerId, stats, unique) {
   const container = document.getElementById(containerId);

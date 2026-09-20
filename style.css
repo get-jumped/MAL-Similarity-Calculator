@@ -316,6 +316,23 @@ hr,
   margin: 1.5rem 0;
 }
 
+.stat-elem {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  padding: 0.5rem 1.25rem;
+}
+
+.stat-elem p {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed var(--rule);
+  font-size: var(--t-sm);
+  color: var(--ink-soft);
+}
+
 /* Stuff to format the layout the anime list */
 .display-titles {
     margin-left: 15px;
