@@ -289,6 +289,10 @@ input[type="text"]:hover {
     place-items: center;
 }
 
+.stat-sec h2 {
+  font-size: var(--t-xl);
+}
+
 .temp-grid {
     display: grid;
     grid-template-columns: repeat(var(--grid-cols), 1fr);
